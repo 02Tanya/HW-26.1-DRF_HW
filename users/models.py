@@ -86,19 +86,16 @@ class Payment(models.Model):
     payment_sum = models.IntegerField(
         verbose_name="Сумма оплаты", help_text="Введите сумму оплаты"
     )
-    # payment_type = models.CharField(
-    #     max_length=50,
-    #     blank=True,
-    #     null=True,
-    #     verbose_name='Способ оплаты',
-    #     help_text='Укажите способ оплаты',
-    # )
-    cash = 'Наличные'
-    invoice = 'Перевод на счет'
-    payment_type = [
-        (cash, 'Наличные'),
-        (invoice, 'Перевод на счет'),
-    ]
+    payment_type = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name='Способ оплаты',
+        help_text='Укажите способ оплаты',
+    )
+    # cash = 'Наличные'
+    # invoice = 'Перевод на счет'
+
 
     class Meta:
         verbose_name = 'Платеж'
