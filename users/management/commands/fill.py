@@ -6,19 +6,17 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         user_list = [
-            {"email": "tr3520@bk.ru", "phone": "89434457658", "user_city": "Рейкъявик"}]
+            {"email": "tr3520@bk.ru", "phone": "89434457658", "user_city": "Рейкъявик"},
+            {"email": "mail5600@bk.ru", "phone": "89356734993", "user_city": "Сидней"},
+            {"email": "ana.stasova@yandex.ru", "phone": "89356755993", "user_city": "Чикаго"}
+        ]
+
+        users_for_create = []
         for user_item in user_list:
-            User.objects.create(**user_item)
-        #     {"email": "mail5600@bk.ru", "phone": "89356734993", "user_city": "Сидней"},
-        #     {"email": "ana.stasova@yandex.ru", "phone": "89356755993", "user_city": "Чикаго"}
-        # ]
-        #
-        # users_for_create = []
-        # for user_item in user_list:
-        #     users_for_create.append(
-        #         User(**user_item)
-        #         )
-        # User.objects.bulk_create(users_for_create)
+            users_for_create.append(
+                User(**user_item)
+                )
+        User.objects.bulk_create(users_for_create)
         #
         # payment_list = [
         #     {"user": 1, "course": 3, "payment_sum": 10000, "payment_type": "Наличные"},

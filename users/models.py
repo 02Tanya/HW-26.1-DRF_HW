@@ -57,7 +57,7 @@ class Payment(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Пользователь",
         help_text="Введите пользователя",
-        related_name="users",
+        related_name="paid_users",
     )
     paid_at = models.DateField(
         blank=True,

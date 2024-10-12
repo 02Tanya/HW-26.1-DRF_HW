@@ -5,12 +5,37 @@ from rest_framework.viewsets import ModelViewSet
 from tutorial.quickstart.serializers import UserSerializer
 
 from users.models import User, Payment
-from users.serializers import PaymentSerializer
+from users.serializers import PaymentSerializer, UserCreateSerializer
 
 
-class UserViewSet(ModelViewSet):
+# class UserViewSet(ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+class UserCreateApiView(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+
+
+class UserListApiView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class UserRetrieveApiView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserUpdateApiView(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDestroyApiView(DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 
 
 class PaymentCreateApiView(CreateAPIView):
