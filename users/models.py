@@ -25,12 +25,12 @@ class User(AbstractUser):
         verbose_name='Номер телефона',
         help_text='Введите ваш номер',
     )
-    city = models.CharField(
-        max_length=50,
+    user_city = models.CharField(
+        max_length=100,
         blank=True,
         null=True,
-        verbose_name='Город',
-        help_text='Укажите город',
+        verbose_name='Название города',
+        help_text='Введите название города',
     )
     # token = models.CharField(
     #     max_length=100,

@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework.viewsets import ModelViewSet
 
 
 class Course(models.Model):
