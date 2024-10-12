@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from materials.models import Course, Lesson
+
 
 class User(AbstractUser):
     username = None
@@ -49,38 +51,52 @@ class User(AbstractUser):
 
 
 
-class Payment(AbstractUser):
-    username = None
-    email = models.EmailField(
-        unique=True,
-        verbose_name="Email",
-        help_text="Введите Ваш email"
+class Payment(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        help_text="Введите пользователя",
+        related_name="users",
     )
-    avatar = models.ImageField(
-        upload_to='users/avatars',
+    paid_at = models.DateField(
         blank=True,
         null=True,
-        verbose_name="Фото",
-        help_text="Загрузите ваше фото",
+        verbose_name="Дата оплаты",
+        help_text="Введите дату оплаты",
     )
-    phone = models.CharField(
-        max_length=35,
-        blank=True,
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.SET_NULL,
+        verbose_name="Название курса",
+        help_text="Введите название курса",
         null=True,
-        verbose_name='Номер телефона',
-        help_text='Введите ваш номер',
+        blank=True,
+        related_name="paid_courses",
     )
-    city = models.CharField(
+    lesson = models.ForeignKey(
+        Lesson,
+        on_delete=models.SET_NULL,
+        verbose_name="Название урока",
+        help_text="Введите название урока",
+        null=True,
+        blank=True,
+        related_name="paid_lessons",
+    )
+    payment_sum = models.IntegerField(
+        verbose_name="Сумма оплаты", help_text="Введите сумму оплаты"
+    )
+    payment_type = models.CharField(
         max_length=50,
         blank=True,
         null=True,
-        verbose_name='Город',
-        help_text='Укажите город',
-
+        verbose_name='Способ оплаты',
+        help_text='Укажите способ оплаты',
+    )
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'Платеж'
+        verbose_name_plural = 'Платежи'
 
     def __str__(self):
-        return self.email
+        return self.payment_type
