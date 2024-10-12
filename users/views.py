@@ -1,5 +1,7 @@
 from django.db.migrations.serializer import PathSerializer
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from tutorial.quickstart.serializers import UserSerializer
@@ -38,14 +40,17 @@ class UserDestroyApiView(DestroyAPIView):
 
 
 
-class PaymentCreateApiView(CreateAPIView):
-    queryset = Payment.objects.all()
+class PaymentListAPIView(ListAPIView):
     serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ('course', 'lesson', 'payment_type',)
+    ordering_fields = ('paid_at',)
 
 
-class PaymentListApiView(ListAPIView):
-    queryset = Payment.objects.all()
+class PaymentCreateAPIView(CreateAPIView):
     serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
 
 
 class PaymentRetrieveApiView(RetrieveAPIView):
