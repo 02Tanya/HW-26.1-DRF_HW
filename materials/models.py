@@ -1,6 +1,6 @@
 from django.db import models
 from rest_framework.viewsets import ModelViewSet
-from users.models import User
+from django.conf import settings
 
 
 class Course(models.Model):
@@ -21,7 +21,7 @@ class Course(models.Model):
         help_text="Загрузите превью курса",
     )
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -72,7 +72,7 @@ class Lesson(models.Model):
         help_text="Укажите ссылку на урок",
     )
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -87,3 +87,4 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.name
+
