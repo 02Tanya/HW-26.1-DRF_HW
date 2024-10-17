@@ -1,5 +1,6 @@
 from django.db import models
 from rest_framework.viewsets import ModelViewSet
+from users.models import User
 
 
 class Course(models.Model):
@@ -18,6 +19,14 @@ class Course(models.Model):
         null=True,
         verbose_name="Превью",
         help_text="Загрузите превью курса",
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Автор',
+        help_text='Укажите автора'
     )
 
     class Meta:
@@ -61,6 +70,14 @@ class Lesson(models.Model):
         blank=True,
         verbose_name="Ссылка нв урок",
         help_text="Укажите ссылку на урок",
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Автор',
+        help_text='Укажите автора'
     )
 
     class Meta:
