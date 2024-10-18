@@ -84,13 +84,19 @@ class SubscriptionCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated, ~IsModer]
 
     def perform_create(self, serializer, *args, **kwargs):
-        new_sunscription = serializer.save()
-        new_sunscription.user = self.request.user
+        new_subscription = serializer.save()
+        new_subscription.user = self.request.user
         pk = self.kwargs.get('pk')
-        new_sunscription.course = Course.objects.get(pk=pk)
-        new_sunscription.save()
+        new_subscription.course = Course.objects.get(pk=pk)
+        new_subscription.save()
+
+
+class SubscriptionListApiView(ListAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
 
 
 class SubscriptionDestroyAPIView(DestroyAPIView):
     queryset = Subscription.objects.all()
-    permission_classes = [IsAuthenticated, IsSubscriber]
+    serializer_class = SubscriptionSerializer
+    permission_classes = (IsAuthenticated, IsSubscriber)
