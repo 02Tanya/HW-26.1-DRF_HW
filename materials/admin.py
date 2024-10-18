@@ -6,6 +6,7 @@ from materials.models import Course, Lesson
 class UserAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "description", "preview", "author")
 
+
 @admin.register(Lesson)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "description", "image", "course", "url", "author")

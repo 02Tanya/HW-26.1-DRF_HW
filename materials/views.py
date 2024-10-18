@@ -1,13 +1,21 @@
 from django.shortcuts import render
-from rest_framework.generics import (CreateAPIView, DestroyAPIView,
-                                     ListAPIView, RetrieveAPIView,
-                                     UpdateAPIView)
+from rest_framework.generics import (
+    CreateAPIView,
+    DestroyAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from materials.models import Lesson, Course
 from materials.paginators import CoursePaginator, LessonPaginator
-from materials.serializers import LessonSerializer, CourseSerializer, CourseDetailSerializer
+from materials.serializers import (
+    LessonSerializer,
+    CourseSerializer,
+    CourseDetailSerializer,
+)
 from users.permissions import IsModer, IsOwner
 
 
@@ -69,5 +77,3 @@ class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = (IsAuthenticated, IsOwner)
-
-

@@ -9,8 +9,7 @@ class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = "__all__"
-        validators = [LinkValidator(field='url')]
-
+        validators = [LinkValidator(field="url")]
 
 
 class CourseSerializer(ModelSerializer):
@@ -24,7 +23,7 @@ class CourseSerializer(ModelSerializer):
 
 class CourseDetailSerializer(ModelSerializer):
     lessons_in_course = SerializerMethodField()
-    lesson = LessonSerializer(many=True, read_only=True, source='courses')
+    lesson = LessonSerializer(many=True, read_only=True, source="courses")
 
     def get_lessons_in_course(self, course):
         return Lesson.objects.filter(course=course).count()
@@ -32,6 +31,3 @@ class CourseDetailSerializer(ModelSerializer):
     class Meta:
         model = Course
         fields = ("name", "description", "lessons_in_course", "lesson")
-
-
-
