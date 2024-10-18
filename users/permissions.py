@@ -18,3 +18,12 @@ class IsOwner(permissions.BasePermission):
         if obj.author == request.user:
             return True
         return False
+
+
+class IsSubscriber(permissions.BasePermission):
+    """Проверяет, является ли пользователь подписчиком."""
+
+    def has_object_permission(self, request, view, obj):
+        if request.user == obj.user:
+            return True
+        return False

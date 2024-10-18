@@ -9,14 +9,14 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
-from materials.models import Lesson, Course
+from materials.models import Lesson, Course, Subscription
 from materials.paginators import CoursePaginator, LessonPaginator
 from materials.serializers import (
     LessonSerializer,
     CourseSerializer,
-    CourseDetailSerializer,
+    CourseDetailSerializer, SubscriptionSerializer,
 )
-from users.permissions import IsModer, IsOwner
+from users.permissions import IsModer, IsOwner, IsSubscriber
 
 
 class CourseViewSet(ModelViewSet):
@@ -77,3 +77,20 @@ class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = (IsAuthenticated, IsOwner)
+
+
+class SubscriptionCreateAPIView(CreateAPIView):
+    serializer_class = SubscriptionSerializer
+    permission_classes = [IsAuthenticated, ~IsModer]
+
+    def perform_create(self, serializer, *args, **kwargs):
+        new_sunscription = serializer.save()
+        new_sunscription.user = self.request.user
+        pk = self.kwargs.get('pk')
+        new_sunscription.course = Course.objects.get(pk=pk)
+        new_sunscription.save()
+
+
+class SubscriptionDestroyAPIView(DestroyAPIView):
+    queryset = Subscription.objects.all()
+    permission_classes = [IsAuthenticated, IsSubscriber]
