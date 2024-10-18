@@ -90,6 +90,12 @@ class Payment(models.Model):
         verbose_name="Способ оплаты",
         help_text="Укажите способ оплаты",
     )
+    link_to_pay = models.URLField(
+        max_length=400,
+        verbose_name='Ссылка для оплаты',
+        blank=True,
+        null=True,
+    )
     # cash = 'Наличные'
     # invoice = 'Перевод на счет'
 

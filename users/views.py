@@ -12,7 +12,9 @@ from rest_framework.generics import (
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
+from materials.services import create_link_for_payment
 from users.models import User, Payment
+from materials.models import Course
 from users.serializers import PaymentSerializer, UserCreateSerializer, UserSerializer
 
 
@@ -77,6 +79,12 @@ class PaymentListAPIView(ListAPIView):
 class PaymentCreateAPIView(CreateAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        payment_link = create_link_for_payment(Course.get("pk"))
+        payment.link_to_pay = payment_link
+        payment.save()
 
 
 class PaymentRetrieveApiView(RetrieveAPIView):
