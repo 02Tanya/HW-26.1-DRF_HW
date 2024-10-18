@@ -17,7 +17,6 @@ class LessonAPITestCase(APITestCase):
         self.course = Course.objects.create(
             name='Лесные заклятья',
             description='Самое лучшее колдовство в лесу',
-            # author=self.user
         )
         self.lesson = Lesson.objects.create(
             name='Лесные приметы',
@@ -46,12 +45,8 @@ class LessonAPITestCase(APITestCase):
             "url": "https://youtube.com/forestjuice/"
         }
         response = self.client.post(url, data)
-        self.assertEqual(
-            response.status_code, status.HTTP_201_CREATED
-        )
-        self.assertEqual(
-            Lesson.objects.all().count(), 2
-        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Lesson.objects.all().count(), 2)
 
 
     def test_lesson_update(self):
@@ -95,7 +90,44 @@ class LessonAPITestCase(APITestCase):
                     }
                 ]
             }
-        self.assertEqual(
-            response.status_code, status.HTTP_200_OK
-        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
+
+
+
+class SubscriptionAPITestCase(APITestCase):
+
+    def setUp(self):
+        # self.client = APIClient()
+        self.user = User.objects.create(email='test22@test.ru')
+        self.client.force_authenticate(user=self.user)
+
+        self.course = Course.objects.create(
+            name='Лесные заклятья',
+            description='Самое лучшее колдовство в лесу',
+        )
+        self.subscription = Subscription.objects.create(
+            user=self.user,
+            course=self.course,
+        )
+
+
+    def test_subscription_create(self):
+        '''Тестирование создания подписки.'''
+        data = {
+            "user": self.user.pk,
+            "course": self.course.pk,
+        }
+        response = self.client.post(f'/materials/{self.course.pk}/subscription/create/', data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Subscription.objects.all().count(), 2)
+
+
+    def test_subscription_delete(self):
+        '''Тестирование удаления подписки.'''
+        data = {
+            "user": self.user.pk,
+            "course": self.course.pk,
+        }
+        response = self.client.delete(f'/course/subscription/{self.subscription.pk}/delete/', data)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
