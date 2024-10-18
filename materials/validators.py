@@ -8,7 +8,7 @@ class LinkValidator:
 
     def __call__(self, value):
         val = dict(value).get(self.field)
-        if "youtube.com" not in val:
+        if val and "youtube.com" not in val:
             raise serializers.ValidationError(
                 "Your link should be only from youtube.com"
             )
