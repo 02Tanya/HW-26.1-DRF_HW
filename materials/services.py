@@ -1,15 +1,16 @@
 from config.settings import STRIPE_SECRET_KEY
 import stripe
+from users.models import Payment
 
 stripe.api_key = STRIPE_SECRET_KEY
 
 
-def create_link_for_payment(course):
+def create_link_for_payment(payment_sum):
     '''Создает продукт, цену и ссылку на оплату в страйпе'''
-    product = stripe.Product.create(name=course.name)
+    product = stripe.Product.create(name='course')
 
     product_price = stripe.Price.create(
-        unit_amount=course.price*100,
+        unit_amount=payment_sum,
         currency="usd",
         product=product.get("id"),
     )

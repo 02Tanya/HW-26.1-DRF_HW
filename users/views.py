@@ -82,7 +82,7 @@ class PaymentCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         payment = serializer.save(user=self.request.user)
-        payment_link = create_link_for_payment(Course.get("pk"))
+        payment_link = create_link_for_payment(Payment.payment_sum)
         payment.link_to_pay = payment_link
         payment.save()
 
