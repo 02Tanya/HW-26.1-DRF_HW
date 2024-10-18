@@ -10,6 +10,3 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Lesson)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "description", "image", "course", "url", "author")
-
-
-

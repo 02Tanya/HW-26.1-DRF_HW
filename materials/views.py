@@ -14,7 +14,8 @@ from materials.paginators import CoursePaginator, LessonPaginator
 from materials.serializers import (
     LessonSerializer,
     CourseSerializer,
-    CourseDetailSerializer, SubscriptionSerializer,
+    CourseDetailSerializer,
+    SubscriptionSerializer,
 )
 from users.permissions import IsModer, IsOwner, IsSubscriber
 
@@ -86,7 +87,7 @@ class SubscriptionCreateAPIView(CreateAPIView):
     def perform_create(self, serializer, *args, **kwargs):
         new_subscription = serializer.save()
         new_subscription.user = self.request.user
-        pk = self.kwargs.get('pk')
+        pk = self.kwargs.get("pk")
         new_subscription.course = Course.objects.get(pk=pk)
         new_subscription.save()
 

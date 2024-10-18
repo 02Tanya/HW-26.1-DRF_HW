@@ -11,10 +11,9 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
-from tutorial.quickstart.serializers import UserSerializer
 
 from users.models import User, Payment
-from users.serializers import PaymentSerializer, UserCreateSerializer
+from users.serializers import PaymentSerializer, UserCreateSerializer, UserSerializer
 
 
 # class UserViewSet(ModelViewSet):

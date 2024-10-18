@@ -100,7 +100,7 @@ class Subscription(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="subscriptions"
+        related_name="subscriptions",
     )
 
     def __str__(self):
